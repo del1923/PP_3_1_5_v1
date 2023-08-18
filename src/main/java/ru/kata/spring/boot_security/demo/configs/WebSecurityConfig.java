@@ -23,6 +23,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
+                .antMatchers("/admin").hasAnyRole("ADMIN")
+                .antMatchers("/user").hasAnyRole("USER")
                 .antMatchers("/", "/index").permitAll()
                 .anyRequest().authenticated()
                 .and()
@@ -37,13 +39,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     @Override
     public UserDetailsService userDetailsService() {
+        //для пользователя с ролью USER
         UserDetails user =
                 User.withDefaultPasswordEncoder()
                         .username("user")
                         .password("user")
                         .roles("USER")
                         .build();
+        //для пользователя с ролью ADMIN
+        UserDetails admin =
+                User.withDefaultPasswordEncoder()
+                        .username("admin")
+                        .password("admin")
+                        .roles("ADMIN")
+                        .build();
 
-        return new InMemoryUserDetailsManager(user);
+        return new InMemoryUserDetailsManager(user, admin);
     }
 }
