@@ -20,9 +20,9 @@ public class User implements UserDetails {
 
     @NotEmpty(message = "Не пустое")
     @Size(min = 3, max = 20, message = "3...20 символов")
-    @Column(name = "name")
-    private String name;
-
+    @Column(name = "username")
+    private String username;
+/*
     @NotEmpty(message = "Не пустое")
     @Column(name = "surname")
     private String surName;
@@ -36,7 +36,7 @@ public class User implements UserDetails {
     @NotEmpty(message = "Не пустое")
     @Column(name = "email")
     private String email;
-
+*/
     @Column(name = "password")
     @NotEmpty( message = "Не пустой")
     private String password;
@@ -51,10 +51,10 @@ public class User implements UserDetails {
     private List<Role> roles;
 
     public User(String name, String surName, int age, String email, String password, List<Role> roles) {
-        this.name = name;
-        this.surName = surName;
-        this.age = age;
-        this.email = email;
+        this.username = username;
+        //this.surName = surName;
+        //this.age = age;
+        //this.email = email;
         this.password = password;
     }
 
@@ -66,14 +66,14 @@ public class User implements UserDetails {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
-
+/*
     public String getSurName() {
         return surName;
     }
@@ -97,20 +97,7 @@ public class User implements UserDetails {
     public void setEmail(String email) {
         this.email = email;
     }
-
-    public List<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return getRoles();
-    }
-
+*/
     public String getPassword() {
         return password;
     }
@@ -120,9 +107,19 @@ public class User implements UserDetails {
     }
 
     @Override
-    public String getUsername() {
-        return email;
-    } //пробуем передать емайл!
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", roles=" + roles +
+                '}';
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return roles;
+    }
 
     @Override
     public boolean isAccountNonExpired() {
@@ -142,17 +139,5 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", surName='" + surName + '\'' +
-                ", age=" + age +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                '}';
     }
 }
