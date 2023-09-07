@@ -24,8 +24,9 @@ public class AdminController {
     }
 
     @GetMapping("/")
-    public String allUsers ( Model model){
+    public String allUsers ( Model model, Principal principal){
         model.addAttribute("showAllUsers", userServices.getAllUsers());
+        model.addAttribute("user", userServices.findByUsername(principal.getName()));
         return "admin";
     }
 
@@ -39,7 +40,7 @@ public class AdminController {
         model.addAttribute("user", userServices.findByUsername(principal.getName()));
         return "showUser";
     }
-    @GetMapping("/new")
+    @GetMapping("/newUser")
     public String newUser(Model model) {
         model.addAttribute("user", new User());
         model.addAttribute("roles", roleServices.getAllRoles());

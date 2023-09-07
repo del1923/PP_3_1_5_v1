@@ -1,9 +1,11 @@
 package ru.kata.spring.boot_security.demo.model;
 
+import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -12,14 +14,36 @@ import java.util.List;
 public class User implements UserDetails {
 
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotEmpty(message = "Не пустое")
     @Column(name = "username") //Имя юзера должно быть уникальным
     private String username;
 
     @Column(name = "password")
+    @Size(min = 4, max = 9, message = "4...9 символов")
     private String password;
+
+    @NotEmpty(message = "Не пустое")
+    @Size(min = 3, max = 20, message = "3...20 символов")
+    @Column(name = "name")
+    private String name;
+
+    @NotEmpty(message = "Не пустое")
+    @Column(name = "surname")
+    private String surName;
+
+    @Min(value = 1, message = "1...100")
+    @Max(value = 100, message = "1...100")
+    @Column(name = "age")
+    private int age;
+
+    @Email(message = "формат: abc@defg.hi")
+    @NotEmpty(message = "Не пустое")
+    @Column(name = "email")
+    private String email;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "users_roles"
@@ -30,9 +54,21 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(String username, String password, List<Role> roles) {
+//    public User(String username, String password, List<Role> roles) {
+//        this.username = username;
+//        this.password = password;
+//    }
+
+
+    public User(Long id, String username, String password, String name, String surName,
+                int age, String email, List<Role> roles) {
+        this.id = id;
         this.username = username;
         this.password = password;
+        this.name = name;
+        this.surName = surName;
+        this.age = age;
+        this.email = email;
     }
 
     public Long getId() {
@@ -43,6 +79,7 @@ public class User implements UserDetails {
         this.id = id;
     }
 
+    @Override
     public String getUsername() {
         return username;
     }
@@ -51,12 +88,45 @@ public class User implements UserDetails {
         this.username = username;
     }
 
+    @Override
     public String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurName() {
+        return surName;
+    }
+
+    public void setSurName(String surName) {
+        this.surName = surName;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public List<Role> getRoles() {
@@ -73,6 +143,10 @@ public class User implements UserDetails {
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
+                ", name='" + name + '\'' +
+                ", surName='" + surName + '\'' +
+                ", age=" + age +
+                ", email='" + email + '\'' +
                 ", roles=" + roles +
                 '}';
     }
