@@ -1,11 +1,10 @@
 package ru.kata.spring.boot_security.demo.model;
 
-import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
 import javax.validation.constraints.*;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -31,6 +30,7 @@ public class User implements UserDetails {
     @Column(name = "name")
     private String name;
 
+
     @NotEmpty(message = "Не пустое")
     @Column(name = "surname")
     private String surName;
@@ -53,12 +53,6 @@ public class User implements UserDetails {
 
     public User() {
     }
-
-//    public User(String username, String password, List<Role> roles) {
-//        this.username = username;
-//        this.password = password;
-//    }
-
 
     public User(Long id, String username, String password, String name, String surName,
                 int age, String email, List<Role> roles) {

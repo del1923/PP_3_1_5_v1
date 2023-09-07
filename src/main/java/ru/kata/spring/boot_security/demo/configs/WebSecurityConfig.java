@@ -17,11 +17,13 @@ import ru.kata.spring.boot_security.demo.services.UserServices;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserServices userServices;
     private final SuccessUserHandler successUserHandler;
+
     @Autowired
     public WebSecurityConfig(UserServices userServices, SuccessUserHandler successUserHandler) {
         this.userServices = userServices;
         this.successUserHandler = successUserHandler;
     }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -29,7 +31,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
                 .antMatchers("/login").permitAll()
-
                 .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
                 .antMatchers("/user/**").access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
                 .anyRequest().authenticated()
@@ -45,6 +46,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userServices);
     }
+
     @Bean
     public PasswordEncoder getPasswordEncoder() {
         return NoOpPasswordEncoder.getInstance();

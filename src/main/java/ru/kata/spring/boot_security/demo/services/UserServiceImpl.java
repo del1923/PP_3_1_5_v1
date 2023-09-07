@@ -1,4 +1,5 @@
 package ru.kata.spring.boot_security.demo.services;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -6,7 +7,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.repositories.UserRepository;
 
@@ -17,6 +17,7 @@ public class UserServiceImpl implements UserServices {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+
     @Autowired
     public UserServiceImpl(UserRepository userRepository, @Lazy PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
@@ -26,7 +27,7 @@ public class UserServiceImpl implements UserServices {
 
     @Override
     public User findByUsername(String name) {
-        return userRepository.findByUsername( name );
+        return userRepository.findByUsername(name);
     }
 
 
@@ -39,14 +40,14 @@ public class UserServiceImpl implements UserServices {
 
     @Override
     public User showUser(Long id) {
-        return userRepository.findById( id ).get();
+        return userRepository.findById(id).get();
     }
 
     @Override
     @Transactional
     public void deleteUserById(Long id) {
-        if ( userRepository.findById( id ).isPresent() ) {
-            userRepository.deleteById( id );
+        if (userRepository.findById(id).isPresent()) {
+            userRepository.deleteById(id);
         }
     }
 
@@ -55,11 +56,14 @@ public class UserServiceImpl implements UserServices {
         return userRepository.findAll();
     }
 
+
     @Override
     @Transactional
     public void updateUser(User user) {
-      userRepository.save(user);
+        userRepository.save(user);
     }
+
+
     @Override
     public User findUserById(Long id) {
         if (userRepository.findById(id).isEmpty()) {
