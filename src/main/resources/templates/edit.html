@@ -31,18 +31,16 @@
     <br>
     <div class="field">
         <label>Доступные роли:</label>
+        <br>
         <div th:each="role: ${userRoles}">
-
             <label>
                 <input type="checkbox" name="roles"
-                       th:text="${role.getRole()}"
+                       th:text="${role.getRole().replace('ROLE_', '') + ' '}"
                        th:value="${role.getId()}"
                        th:field="*{roles}"/>
             </label>
         </div>
-
     </div>
-    <br>
     <br>
     <label for="age"> Возраст: </label>
     <input type="text" th:field="*{age}" id="age"/>
