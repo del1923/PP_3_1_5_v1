@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.util.Collection;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -17,12 +17,12 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty(message = "Не пустое")
+    //@NotEmpty(message = "Не пустое")
     @Column(name = "username") //Имя юзера должно быть уникальным
     private String username;
 
     @Column(name = "password")
-    @Size(min = 4, max = 9, message = "4...9 символов")
+    //@Size(min = 3, max = 9, message = "4...9 символов")
     private String password;
 
     @NotEmpty(message = "Не пустое")
@@ -49,21 +49,23 @@ public class User implements UserDetails {
     @JoinTable(name = "users_roles"
             , joinColumns = @JoinColumn(name = "users_id")
             , inverseJoinColumns = @JoinColumn(name = "roles_id"))
-    private List<Role> roles;
+    private Set<Role> roles;
 
     public User() {
     }
 
-    public User(Long id, String username, String password, String name, String surName,
-                int age, String email, List<Role> roles) {
-        this.id = id;
+    public User(String username, String password, String name, String surName,
+                int age, String email, Set<Role> roles) {
+        //this.id = id;
         this.username = username;
         this.password = password;
         this.name = name;
         this.surName = surName;
         this.age = age;
         this.email = email;
+        this.roles = roles;
     }
+
 
     public Long getId() {
         return id;
@@ -123,11 +125,11 @@ public class User implements UserDetails {
         this.email = email;
     }
 
-    public List<Role> getRoles() {
+    public Set<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<Role> roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 
@@ -169,4 +171,5 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 }

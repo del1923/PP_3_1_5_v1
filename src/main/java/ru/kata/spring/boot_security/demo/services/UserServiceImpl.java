@@ -2,15 +2,15 @@ package ru.kata.spring.boot_security.demo.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.repositories.UserRepository;
 
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.NoSuchElementException;
+import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserServices {
@@ -40,7 +40,8 @@ public class UserServiceImpl implements UserServices {
 
     @Override
     public User showUser(Long id) {
-        return userRepository.findById(id).get();
+        return userRepository.findById(id).orElseThrow(()
+                -> new NoSuchElementException("Пользователь с таким ID не найден"));
     }
 
     @Override
@@ -52,32 +53,35 @@ public class UserServiceImpl implements UserServices {
     }
 
     @Override
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public Set<User> getAllUsers() {
+        return new LinkedHashSet<>(userRepository.findAll());
     }
 
 
     @Override
     @Transactional
-    public void updateUser(User user) {
-        userRepository.save(user);
+    public void updateUser(User userUpdate, Long id) {
+        userRepository.save(userUpdate);
+
+        if (userRepository.findById(id).get().getPassword().equals(userUpdate.getPassword())) {
+            userRepository.save(userRepository.findById(id).get());
+        } else {
+            userRepository.findById(id).get().setPassword(passwordEncoder.encode(userUpdate.getPassword()));
+            userRepository.save(userRepository.findById(id).get());
+        }
+        userRepository.save(userRepository.findById(id).get());
     }
 
 
     @Override
     public User findUserById(Long id) {
-        if (userRepository.findById(id).isEmpty()) {
-            throw new UsernameNotFoundException("Пользователь с таким ID не найден");
-        }
-        return userRepository.findById(id).get();
+        return userRepository.findById(id).orElseThrow(()
+                -> new NoSuchElementException("Пользователь с таким ID не найден"));
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = findByUsername(username);
-        if (user == null) {
-            throw new UsernameNotFoundException("Пользователь не существует");
-        }
-        return user;
+    @Transactional
+    public void createUser(User user) {
+        userRepository.save( user );
     }
 }

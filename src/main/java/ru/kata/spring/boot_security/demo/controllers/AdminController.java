@@ -23,10 +23,11 @@ public class AdminController {
         this.roleServices = roleServices;
     }
 
-    @GetMapping("/")
+    @GetMapping()
     public String allUsers(Model model, Principal principal) {
         model.addAttribute("showAllUsers", userServices.getAllUsers());
         model.addAttribute("user", userServices.findByUsername(principal.getName()));
+        model.addAttribute( "userName", principal.getName());
         return "admin";
     }
 
@@ -63,10 +64,11 @@ public class AdminController {
     }
 
     @PatchMapping("/{id}")
-    public String update(@ModelAttribute("user") User user, @PathVariable("id") Long id) {
-        userServices.updateUser(user);
+    public String update(@ModelAttribute("user") User userUpdate, @PathVariable("id") Long id) {
+        userServices.updateUser(userUpdate, id);
         return "redirect:/admin/";
     }
+
 
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") Long id) {

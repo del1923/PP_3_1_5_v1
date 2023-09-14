@@ -5,7 +5,8 @@ import org.springframework.stereotype.Service;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
 
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Service
 public class RoleServiceImpl implements RoleServices {
@@ -18,7 +19,7 @@ public class RoleServiceImpl implements RoleServices {
     }
 
     @Override
-    public List<Role> getAllRoles() {
-        return roleRepository.findAll();
+    public Set<Role> getAllRoles() {
+        return new LinkedHashSet<>(roleRepository.findAll());
     }
 }
