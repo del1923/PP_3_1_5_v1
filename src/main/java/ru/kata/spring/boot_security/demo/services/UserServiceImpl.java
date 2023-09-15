@@ -10,6 +10,7 @@ import ru.kata.spring.boot_security.demo.repositories.UserRepository;
 
 import java.util.LinkedHashSet;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.Set;
 
 @Service

@@ -17,31 +17,26 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //@NotEmpty(message = "Не пустое")
+
     @Column(name = "username") //Имя юзера должно быть уникальным
     private String username;
 
     @Column(name = "password")
-    //@Size(min = 3, max = 9, message = "4...9 символов")
     private String password;
 
-    @NotEmpty(message = "Не пустое")
-    @Size(min = 3, max = 20, message = "3...20 символов")
+
     @Column(name = "name")
     private String name;
 
 
-    @NotEmpty(message = "Не пустое")
     @Column(name = "surname")
     private String surName;
 
-    @Min(value = 1, message = "1...100")
-    @Max(value = 100, message = "1...100")
+
     @Column(name = "age")
     private int age;
 
-    @Email(message = "формат: abc@defg.hi")
-    @NotEmpty(message = "Не пустое")
+
     @Column(name = "email")
     private String email;
 

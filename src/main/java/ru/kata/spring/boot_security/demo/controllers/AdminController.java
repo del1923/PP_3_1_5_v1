@@ -28,6 +28,7 @@ public class AdminController {
         model.addAttribute("showAllUsers", userServices.getAllUsers());
         model.addAttribute("user", userServices.findByUsername(principal.getName()));
         model.addAttribute( "userName", principal.getName());
+        model.addAttribute("roles", roleServices.getAllRoles());
         return "admin";
     }
 
@@ -47,10 +48,10 @@ public class AdminController {
     public String newUser(Model model) {
         model.addAttribute("user", new User());
         model.addAttribute("userRoles", roleServices.getAllRoles());
-        return "/newUser";
+        return "/new";
     }
 
-    @PostMapping
+    @PostMapping("/save")
     public String save(@ModelAttribute("user") User user) {
         userServices.saveUser(user);
         return "redirect:/admin/";
@@ -63,8 +64,9 @@ public class AdminController {
         return "/edit";
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping("/edit/{id}")
     public String update(@ModelAttribute("user") User userUpdate, @PathVariable("id") Long id) {
+        System.out.println( userUpdate );
         userServices.updateUser(userUpdate, id);
         return "redirect:/admin/";
     }
