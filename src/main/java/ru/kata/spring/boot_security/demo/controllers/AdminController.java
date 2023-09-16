@@ -25,15 +25,9 @@ public class AdminController {
 
     @GetMapping()
     public String allUsers(Model model, Principal principal) {
-        System.out.println("в контроллере");
-        System.out.println(userServices.getAllUsers());
         model.addAttribute("showAllUsers", userServices.getAllUsers());
         model.addAttribute("user", userServices.findByEmail(principal.getName()));
         model.addAttribute( "userName", principal.getName());
-        System.out.println(principal.getName());
-//        System.out.println("ищем пользователя" + principal.getName() + " по мейлу!");
-//        System.out.println(userServices.findByEmail(principal.getName()));
-//        System.out.println(roleServices.getAllRoles());
         model.addAttribute("roles", roleServices.getAllRoles());
         return "admin";
     }
@@ -46,7 +40,7 @@ public class AdminController {
 
     @GetMapping("/showUser")
     public String showUser(Model model, Principal principal) {
-        model.addAttribute("user", userServices.findByUsername(principal.getName()));
+        model.addAttribute("user", userServices.findByEmail(principal.getName()));
         return "showUser";
     }
 
