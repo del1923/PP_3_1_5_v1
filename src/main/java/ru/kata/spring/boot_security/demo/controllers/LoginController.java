@@ -21,9 +21,7 @@ public class LoginController {
 
     @GetMapping("/login")
     String login() {
-        System.out.println(userServices.findByUsername("admin"));
-        System.out.println(userServices.findByEmail("mashina@mail.ru"));
-    return "login";
+        return "login";
     }
 }
 

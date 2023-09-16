@@ -27,41 +27,44 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/").permitAll()
-                .antMatchers("/login").permitAll()
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
-                .antMatchers("/user/**").hasAnyRole("GUEST", "USER", "ADMIN")
-                .anyRequest().authenticated()
-                .and()
-                .formLogin().successHandler(successUserHandler)
-                .permitAll()
-                .and()
-                .logout().permitAll()
-                .and()
-                .formLogin(form -> form
-                        .usernameParameter("name")
-                        .loginPage("/login"));
-
 //        http
 //                .csrf().disable()
 //                .authorizeRequests()
-//                .antMatchers("/", "/index").permitAll()
+//                .antMatchers("/").permitAll()
+//                .antMatchers("/login").permitAll()
 //                .antMatchers("/admin/**").hasRole("ADMIN")
-//                .antMatchers("/user").hasAnyRole("USER", "ADMIN")
+//                .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
+//                .antMatchers("/user/**").hasAnyRole("GUEST", "USER", "ADMIN")
 //                .anyRequest().authenticated()
+//                .and()
+//                .formLogin().successHandler(successUserHandler)
+//                .permitAll()
+//                .and()
+//                .logout().permitAll()
 //                .and()
 //                .formLogin(form -> form
 //                        .usernameParameter("email")
-//
-//                        .loginPage("/login")
-//
-//                        .successHandler(new SuccessUserHandler())
-//                        .permitAll());
-    }
+//                        .loginPage("/login"));
+
+        http
+                .csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/", "/index").permitAll()
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/user").hasAnyRole("USER", "ADMIN")
+                .anyRequest().authenticated()
+                .and()
+                .formLogin()
+                .loginPage("/login")
+                .usernameParameter("email")
+                .loginProcessingUrl("/login")
+                .successHandler(successUserHandler)
+                .permitAll()
+                .and()
+                .logout()
+                .permitAll();
+
+   }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) {

@@ -20,12 +20,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
-        Optional<User> userOptional = Optional.ofNullable(userRepository.findByUsername(name));
-        return userOptional.orElseThrow(()
-                -> new UsernameNotFoundException("Пользователь не существует"));
-    }
-    public UserDetails loadUserByEmail(String email) throws UsernameNotFoundException {
-        Optional<User> userOptional = Optional.ofNullable(userRepository.findByEmail(email));
+        Optional<User> userOptional = Optional.ofNullable(userRepository.findByEmail(name));
         return userOptional.orElseThrow(()
                 -> new UsernameNotFoundException("Пользователь не существует"));
     }
