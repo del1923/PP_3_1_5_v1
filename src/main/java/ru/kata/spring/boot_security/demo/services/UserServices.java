@@ -21,4 +21,6 @@ public interface UserServices {
     User findUserById(Long id);
     void createUser( User user );
 
+    User findByEmail(String email);
+
 }

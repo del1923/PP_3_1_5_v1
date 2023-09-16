@@ -40,8 +40,27 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin().successHandler(successUserHandler)
                 .permitAll()
                 .and()
-                .logout().permitAll();
+                .logout().permitAll()
+                .and()
+                .formLogin(form -> form
+                        .usernameParameter("name")
+                        .loginPage("/login"));
 
+//        http
+//                .csrf().disable()
+//                .authorizeRequests()
+//                .antMatchers("/", "/index").permitAll()
+//                .antMatchers("/admin/**").hasRole("ADMIN")
+//                .antMatchers("/user").hasAnyRole("USER", "ADMIN")
+//                .anyRequest().authenticated()
+//                .and()
+//                .formLogin(form -> form
+//                        .usernameParameter("email")
+//
+//                        .loginPage("/login")
+//
+//                        .successHandler(new SuccessUserHandler())
+//                        .permitAll());
     }
 
     @Override

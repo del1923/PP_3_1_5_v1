@@ -17,10 +17,6 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
-    @Column(name = "username") //Имя юзера должно быть уникальным
-    private String username;
-
     @Column(name = "password")
     private String password;
 
@@ -49,10 +45,8 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(String username, String password, String name, String surName,
+    public User(String password, String name, String surName,
                 int age, String email, Set<Role> roles) {
-        //this.id = id;
-        this.username = username;
         this.password = password;
         this.name = name;
         this.surName = surName;
@@ -71,17 +65,13 @@ public class User implements UserDetails {
     }
 
     @Override
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
+    public String getPassword() {
+        return password;
     }
 
     @Override
-    public String getPassword() {
-        return password;
+    public String getUsername() {
+        return name;
     }
 
     public void setPassword(String password) {
@@ -132,7 +122,6 @@ public class User implements UserDetails {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", name='" + name + '\'' +
                 ", surName='" + surName + '\'' +
