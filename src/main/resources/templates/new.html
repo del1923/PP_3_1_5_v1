@@ -76,6 +76,7 @@
                                     <label for="name" class="font-weight-bold">e-mail:</label>
                                     <input type="text" class="form-control" id="email" placeholder="Enter e-mail"
                                            th:field="*{email}"/>
+                                    <div style="color: coral" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">error</div>
                                 </div>
                                 <div>
                                     <label for="password" class="font-weight-bold">Password:</label>

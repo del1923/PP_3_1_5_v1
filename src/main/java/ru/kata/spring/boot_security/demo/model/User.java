@@ -1,5 +1,6 @@
 package ru.kata.spring.boot_security.demo.model;
 
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

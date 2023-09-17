@@ -4,11 +4,14 @@ package ru.kata.spring.boot_security.demo.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.services.RoleServices;
 import ru.kata.spring.boot_security.demo.services.UserServices;
+import ru.kata.spring.boot_security.demo.util.UserValidator;
 
+import javax.validation.Valid;
 import java.security.Principal;
 
 @Controller
@@ -16,11 +19,13 @@ import java.security.Principal;
 public class AdminController {
     private final UserServices userServices;
     private final RoleServices roleServices;
+    private final UserValidator userValidator;
 
     @Autowired
-    public AdminController(UserServices userServices, RoleServices roleServices) {
+    public AdminController(UserServices userServices, RoleServices roleServices, UserValidator userValidator) {
         this.userServices = userServices;
         this.roleServices = roleServices;
+        this.userValidator = userValidator;
     }
 
     @GetMapping()
@@ -50,9 +55,22 @@ public class AdminController {
         model.addAttribute("userRoles", roleServices.getAllRoles());
         return "/new";
     }
+//    @PostMapping()
+//    public String addUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult) {
+//        userValidator.validate(user, bindingResult);
+//        if (bindingResult.hasErrors()) {
+//            return "/new";
+//        }
+//        userServices.saveUser(user);
+//        return "redirect:admin";
+//    }
 
     @PostMapping("/save")
-    public String save(@ModelAttribute("user") User user) {
+    public String save(@ModelAttribute("user") @Valid User user, BindingResult bindingResult) {
+        userValidator.validate(user, bindingResult);
+        if (bindingResult.hasErrors()) {
+            return "/new";
+        }
         userServices.saveUser(user);
         return "redirect:/admin/";
     }
