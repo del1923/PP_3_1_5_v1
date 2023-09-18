@@ -17,9 +17,9 @@ import java.util.Set;
 @Component
 public class Initializer implements ApplicationListener<ContextRefreshedEvent> {
 
-    private RoleRepository roleRepository;
-    private PasswordEncoder passwordEncoder;
-    private UserServices userServices;
+    private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final UserServices userServices;
 
     @Autowired
     public Initializer(RoleRepository roleRepository, PasswordEncoder passwordEncoder,

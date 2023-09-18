@@ -5,7 +5,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.services.RoleServices;
 import ru.kata.spring.boot_security.demo.services.UserServices;
@@ -55,15 +62,6 @@ public class AdminController {
         model.addAttribute("userRoles", roleServices.getAllRoles());
         return "/new";
     }
-//    @PostMapping()
-//    public String addUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult) {
-//        userValidator.validate(user, bindingResult);
-//        if (bindingResult.hasErrors()) {
-//            return "/new";
-//        }
-//        userServices.saveUser(user);
-//        return "redirect:admin";
-//    }
 
     @PostMapping("/save")
     public String save(@ModelAttribute("user") @Valid User user, BindingResult bindingResult) {
@@ -75,19 +73,11 @@ public class AdminController {
         return "redirect:/admin/";
     }
 
-    @GetMapping("/{id}/edit")
-    public String edit(Model model, @PathVariable("id") Long id) {
-        model.addAttribute("user", userServices.showUser(id));
-        model.addAttribute("userRoles", roleServices.getAllRoles());
-        return "/edit";
-    }
-
     @PatchMapping("/edit/{id}")
     public String update(@ModelAttribute("user") User userUpdate, @PathVariable("id") Long id) {
         userServices.updateUser(userUpdate, id);
         return "redirect:/admin/";
     }
-
 
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") Long id) {
