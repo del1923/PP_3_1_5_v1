@@ -1,28 +1,22 @@
 package ru.kata.spring.boot_security.demo.controllers;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.services.RoleServices;
 import ru.kata.spring.boot_security.demo.services.UserServices;
 import ru.kata.spring.boot_security.demo.util.UserValidator;
 
-import javax.validation.Valid;
 import java.security.Principal;
+import java.util.Set;
 
-@Controller
-@RequestMapping("/admin")
+@RestController
+@RequestMapping("/rest/admin")
 public class AdminController {
     private final UserServices userServices;
     private final RoleServices roleServices;
@@ -35,15 +29,45 @@ public class AdminController {
         this.userValidator = userValidator;
     }
 
-    @GetMapping()
-    public String allUsers(Model model, Principal principal) {
-        model.addAttribute("showAllUsers", userServices.getAllUsers());
-        model.addAttribute("user", userServices.findByEmail(principal.getName()));
-        model.addAttribute( "userName", principal.getName());
-        model.addAttribute("roles", roleServices.getAllRoles());
-        return "admin";
-    }
+    @GetMapping("/allUsers")
+    public Set<User> getAllUsers() {
+        return userServices.getAllUsers();
+    } //получить список всех пользователей
 
+    @GetMapping("/")
+    public User admin(Principal principal) {
+        return userServices.findByUsername(principal.getName());
+    } //получить данные админа по имени
+
+    @GetMapping("/user/{id}")
+    public User get(@PathVariable long id) {
+        return userServices.findUserById(id);
+    } // получить данные юзера по его ID
+
+    @GetMapping("/roles")
+    public Set<Role> roles() {
+        return roleServices.getAllRoles();
+    } // получить список ролей
+
+    @GetMapping("/add")
+    public void add(@RequestBody User user) {
+        userServices.saveUser(user);
+    } // добавить юзера
+
+    @GetMapping("/delete/{id}")
+    public void delete(@PathVariable long id) {
+        userServices.deleteUserById(id);
+    } // удалить юзера
+
+    @GetMapping("/update")
+    public void update(@RequestBody User user) {
+        userServices.saveUser(user);
+    } // редактировать юзера
+}
+
+
+// ниже всё ненужно!
+/*
     @GetMapping("/{id}")
     public String show(@PathVariable("id") Long id, Model model) {
         model.addAttribute("user", userServices.showUser(id));
@@ -84,4 +108,6 @@ public class AdminController {
         userServices.deleteUserById(id);
         return "redirect:/admin/";
     }
+
 }
+*/
