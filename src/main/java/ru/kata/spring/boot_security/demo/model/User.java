@@ -1,5 +1,7 @@
 package ru.kata.spring.boot_security.demo.model;
 
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -14,6 +16,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.Set;
 
@@ -27,22 +32,30 @@ public class User implements UserDetails {
     private Long id;
 
     @Column(name = "password")
+    @Size(min = 3, max = 20, message = "3...20 символов")
     private String password;
 
 
     @Column(name = "name")
+    @NotEmpty(message = "Не пустое")
+    @Size(min = 3, max = 20, message = "3...20 символов")
     private String name;
 
 
     @Column(name = "surname")
+    @NotEmpty(message = "Не пустое")
     private String surName;
 
 
     @Column(name = "age")
+    @Min(value = 1, message = "1...100")
+    @Max(value = 100, message = "1...100")
     private int age;
 
 
     @Column(name = "email")
+    @NotEmpty(message = "Не пустое")
+    @Email(message = "формат: abc@defg.hi")
     private String email;
 
 
