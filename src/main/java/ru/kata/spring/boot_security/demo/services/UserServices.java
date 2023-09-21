@@ -9,17 +9,12 @@ public interface UserServices {
 
     void saveUser(User user);
 
-    User showUser(Long id);
-
     void deleteUserById(Long id);
 
     Set<User> getAllUsers();
-
-    void updateUser(User user, Long id);
 
     User findUserById(Long id);
     void createUser( User user );
 
     User findByEmail(String email);
-
 }

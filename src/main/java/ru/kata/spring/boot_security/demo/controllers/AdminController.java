@@ -20,13 +20,13 @@ import java.util.Set;
 public class AdminController {
     private final UserServices userServices;
     private final RoleServices roleServices;
-    private final UserValidator userValidator;
+    //private final UserValidator userValidator;
 
     @Autowired
     public AdminController(UserServices userServices, RoleServices roleServices, UserValidator userValidator) {
         this.userServices = userServices;
         this.roleServices = roleServices;
-        this.userValidator = userValidator;
+        //this.userValidator = userValidator;
     }
 
     @GetMapping("/allUsers")

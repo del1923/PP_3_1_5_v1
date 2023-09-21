@@ -39,12 +39,6 @@ public class UserServiceImpl implements UserServices {
     }
 
     @Override
-    public User showUser(Long id) {
-        return userRepository.findById(id).orElseThrow(()
-                -> new NoSuchElementException("Пользователь с таким ID не найден"));
-    }
-
-    @Override
     @Transactional
     public void deleteUserById(Long id) {
         if (userRepository.findById(id).isPresent()) {
@@ -56,22 +50,6 @@ public class UserServiceImpl implements UserServices {
     public Set<User> getAllUsers() {
         return new LinkedHashSet<>(userRepository.findAll());
     }
-
-
-    @Override
-    @Transactional
-    public void updateUser(User userUpdate, Long id) {
-        userRepository.save(userUpdate);
-
-        if (userRepository.findById(id).get().getPassword().equals(userUpdate.getPassword())) {
-            userRepository.save(userRepository.findById(id).get());
-        } else {
-            userRepository.findById(id).get().setPassword(passwordEncoder.encode(userUpdate.getPassword()));
-            userRepository.save(userRepository.findById(id).get());
-        }
-        userRepository.save(userRepository.findById(id).get());
-    }
-
 
     @Override
     public User findUserById(Long id) {
