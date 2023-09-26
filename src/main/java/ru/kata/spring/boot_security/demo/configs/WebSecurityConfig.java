@@ -31,21 +31,26 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/", "/index").permitAll()
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/user").hasAnyRole("USER", "ADMIN")
-                .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .loginPage("/login")
-                .usernameParameter("email")
-                .loginProcessingUrl("/login")
-                .successHandler(successUserHandler)
-                .permitAll()
-                .and()
-                .logout()
-                .permitAll();
+                .anyRequest().permitAll() // ОТКЛ авторизацию, потом удалить!
+                .and()// ОТКЛ авторизацию, потом удалить!
+                .logout()// ОТКЛ авторизацию, потом удалить!
+                .permitAll();// ОТКЛ авторизацию, потом удалить!
 
+/*                .antMatchers("/", "/index").permitAll()
+//                .antMatchers("/api/admin/**", "/admin/**").hasRole("ADMIN")
+//                .antMatchers("/api/user").hasAnyRole("USER", "ADMIN")
+//                .anyRequest().authenticated()
+//                .and()
+//                .formLogin()
+//                .loginPage("/login")
+//                .usernameParameter("email")
+//                .loginProcessingUrl("/login")
+//                .successHandler(successUserHandler)
+//                .permitAll()
+//                .and()
+//                .logout()
+//                .permitAll();
+*/
    }
 
     @Override

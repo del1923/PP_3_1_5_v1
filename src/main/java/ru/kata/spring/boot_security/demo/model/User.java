@@ -16,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
@@ -32,19 +33,18 @@ public class User implements UserDetails {
     private Long id;
 
     @Column(name = "password")
-    @Size(min = 3, max = 20, message = "3...20 символов")
     private String password;
 
 
     @Column(name = "name")
     @NotEmpty(message = "Не пустое")
-    @Size(min = 3, max = 20, message = "3...20 символов")
+    @Size(min = 1, max = 20, message = "1...20 символов")
     private String name;
 
 
     @Column(name = "surname")
     @NotEmpty(message = "Не пустое")
-    private String surName;
+    private String surname;
 
 
     @Column(name = "age")
@@ -68,10 +68,10 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(String name, String surName, int age, String email, String password, Set<Role> roles) {
+    public User(String name, String surname, int age, String email, String password, Set<Role> roles) {
         this.password = password;
         this.name = name;
-        this.surName = surName;
+        this.surname = surname;
         this.age = age;
         this.email = email;
         this.roles = roles;
@@ -107,12 +107,12 @@ public class User implements UserDetails {
         this.name = name;
     }
 
-    public String getSurName() {
-        return surName;
+    public String getSurname() {
+        return surname;
     }
 
-    public void setSurName(String surName) {
-        this.surName = surName;
+    public void setSurname(String surName) {
+        this.surname = surName;
     }
 
     public int getAge() {
@@ -145,7 +145,7 @@ public class User implements UserDetails {
                 "id=" + id +
                 ", password='" + password + '\'' +
                 ", name='" + name + '\'' +
-                ", surName='" + surName + '\'' +
+                ", surName='" + surname + '\'' +
                 ", age=" + age +
                 ", email='" + email + '\'' +
                 ", roles=" + roles +

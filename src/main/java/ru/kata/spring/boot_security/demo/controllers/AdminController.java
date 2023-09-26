@@ -1,113 +1,85 @@
 package ru.kata.spring.boot_security.demo.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.services.RoleServices;
 import ru.kata.spring.boot_security.demo.services.UserServices;
-import ru.kata.spring.boot_security.demo.util.UserValidator;
 
+
+import javax.validation.Valid;
 import java.security.Principal;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
+/**
+ * RestController – это Controller, который управляет REST запросами и ответами.
+ * Такие Спринг-приложении, которые принимают http-запросы и не реализуют представления,
+ * а отдают сырые данные в формате JSON (в 99% случаев, т.к. это самый распространенный формат),
+ * называются REST API.
+ * По принятому стандарту url любого запроса в REST API должно начинаться с /api,
+ * поэтому всему rest-контроллеру ставим такой url
+ * Теперь, когда со стороны клиента, т.е. браузера, будет приходить запрос, содержащий в url "/api",
+ * то Спринг с помощью функционала проекта Jackson будет конвертировать данные в JSON-формат
+ * и в теле http-response будет передан JSON, который отобразится в браузере.
+ * <p>
+ * Чтобы получать о запросах и ответа больше инфы, есть разные проги. Одна из них - Postman.
+ * Т.е. в качестве клиента будет не браузер, а Postman.
+ */
+
+
 @RestController
-@RequestMapping("/rest/admin")
+@RequestMapping("/api/admin")
 public class AdminController {
+
     private final UserServices userServices;
     private final RoleServices roleServices;
-    //private final UserValidator userValidator;
+
 
     @Autowired
-    public AdminController(UserServices userServices, RoleServices roleServices, UserValidator userValidator) {
+    public AdminController(UserServices userServices, RoleServices roleServices) {
         this.userServices = userServices;
         this.roleServices = roleServices;
-        //this.userValidator = userValidator;
     }
 
-    @GetMapping("/allUsers")
-    public Set<User> getAllUsers() {
-        return userServices.getAllUsers();
-    } //получить список всех пользователей
+    @GetMapping("/showAccount")
+    public ResponseEntity<User> showInfoUser (Principal principal) {
+        return ResponseEntity.ok (userServices.findByUsername(principal.getName()));
+    }
 
-    @GetMapping("/")
-    public User admin(Principal principal) {
-        return userServices.findByUsername(principal.getName());
-    } //получить данные админа по имени
+    @GetMapping("/users")
+    public ResponseEntity<List<User>> getAllUsers() {
+        List<User> responseListUsers = new ArrayList<>(userServices.getAllUsers());
+        return ResponseEntity.ok(responseListUsers);
+    }
 
-    @GetMapping("/user/{id}")
-    public User get(@PathVariable long id) {
-        return userServices.findUserById(id);
-    } // получить данные юзера по его ID
+    @GetMapping(value = "/roles")
+    public ResponseEntity<Collection<Role>> getAllRoles() {
+        return ResponseEntity.ok(roleServices.getAllRoles());
+    }
 
-    @GetMapping("/roles")
-    public Set<Role> roles() {
-        return roleServices.getAllRoles();
-    } // получить список ролей
 
-    @GetMapping("/add")
-    public void add(@RequestBody User user) {
-        userServices.saveUser(user);
-    } // добавить юзера
 
-    @GetMapping("/delete/{id}")
-    public void delete(@PathVariable long id) {
-        userServices.deleteUserById(id);
-    } // удалить юзера
-
-    @GetMapping("/update")
-    public void update(@RequestBody User user) {
-        userServices.saveUser(user);
-    } // редактировать юзера
 }
 
 
-// ниже всё ненужно!
-/*
-    @GetMapping("/{id}")
-    public String show(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("user", userServices.showUser(id));
-        return "showUser";
-    }
 
-    @GetMapping("/showUser")
-    public String showUser(Model model, Principal principal) {
-        model.addAttribute("user", userServices.findByEmail(principal.getName()));
-        return "showUser";
-    }
 
-    @GetMapping("/newUser")
-    public String newUser(Model model) {
-        model.addAttribute("user", new User());
-        model.addAttribute("userRoles", roleServices.getAllRoles());
-        return "/new";
-    }
 
-    @PostMapping("/save")
-    public String save(@ModelAttribute("user") @Valid User user, BindingResult bindingResult) {
-        userValidator.validate(user, bindingResult);
-        if (bindingResult.hasErrors()) {
-            return "/new";
-        }
-        userServices.saveUser(user);
-        return "redirect:/admin/";
-    }
-
-    @PatchMapping("/edit/{id}")
-    public String update(@ModelAttribute("user") User userUpdate, @PathVariable("id") Long id) {
-        userServices.updateUser(userUpdate, id);
-        return "redirect:/admin/";
-    }
-
-    @DeleteMapping("/{id}")
-    public String delete(@PathVariable("id") Long id) {
-        userServices.deleteUserById(id);
-        return "redirect:/admin/";
-    }
-
-}
-*/
