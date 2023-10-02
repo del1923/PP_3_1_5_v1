@@ -10,8 +10,10 @@ import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
 import ru.kata.spring.boot_security.demo.services.UserServices;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @Component
@@ -44,14 +46,18 @@ public class Initializer implements ApplicationListener<ContextRefreshedEvent> {
         adminRole.setRole("ROLE_ADMIN");
         roleRepository.save(adminRole);
 
-        Set<Role> guestRoles = new LinkedHashSet<>();
-        Collections.addAll(guestRoles, guestRole);
+        List<Role> guestRoles = Arrays.asList( guestRole );
+        List<Role> userRoles = Arrays.asList( guestRole, userRole );
+        List<Role> adminRoles = Arrays.asList( guestRole, userRole, adminRole );
 
-        Set<Role> userRoles = new LinkedHashSet<>();
-        Collections.addAll(userRoles, userRole, guestRole);
-
-        Set<Role> adminRoles = new LinkedHashSet<>();
-        Collections.addAll(adminRoles, adminRole, userRole, guestRole);
+//        Set<Role> guestRoles = new LinkedHashSet<>();
+//        Collections.addAll(guestRoles, guestRole);
+//
+//        Set<Role> userRoles = new LinkedHashSet<>();
+//        Collections.addAll(userRoles, userRole, guestRole);
+//
+//        Set<Role> adminRoles = new LinkedHashSet<>();
+//        Collections.addAll(adminRoles, adminRole, userRole, guestRole);
 
         User guest = new User( "guest", "guest", 20, "guest@mail.ru",
                 passwordEncoder.encode("guest"), guestRoles );

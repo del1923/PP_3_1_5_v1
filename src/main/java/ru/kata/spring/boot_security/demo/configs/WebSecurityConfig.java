@@ -29,14 +29,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http
-                .csrf().disable()
-                .authorizeRequests()
-                .anyRequest().permitAll() // ОТКЛ авторизацию, потом удалить!
-                .and()// ОТКЛ авторизацию, потом удалить!
-                .logout()// ОТКЛ авторизацию, потом удалить!
-                .permitAll();// ОТКЛ авторизацию, потом удалить!
+//                .csrf().disable()
+//                .authorizeRequests()
+//                .anyRequest().permitAll() // ОТКЛ авторизацию, потом удалить!
+//                .and()// ОТКЛ авторизацию, потом удалить!
+//                .logout()// ОТКЛ авторизацию, потом удалить!
+//                .permitAll();// ОТКЛ авторизацию, потом удалить!
 
-/*                .antMatchers("/", "/index").permitAll()
+//                .csrf().disable()
+//                .authorizeRequests()
+//                .antMatchers("/", "/index").permitAll()
 //                .antMatchers("/api/admin/**", "/admin/**").hasRole("ADMIN")
 //                .antMatchers("/api/user").hasAnyRole("USER", "ADMIN")
 //                .anyRequest().authenticated()
@@ -50,8 +52,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .and()
 //                .logout()
 //                .permitAll();
-*/
-   }
+
+        .csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/").permitAll() // на адрес "/" можно всем
+                .antMatchers("/login").permitAll() // на "/login" можно всем
+                .antMatchers("/api/admin/**").hasRole("ADMIN") // на "/admin/**" с ролью ADMIN
+                .antMatchers("/api/user/**").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/api/user/**").hasAnyRole("GUEST", "USER", "ADMIN")
+                .anyRequest().authenticated() // остальные запросы только аутентифицированным
+                .and()
+                .formLogin()
+                .loginPage("/login")
+                .usernameParameter("email")
+                .loginProcessingUrl("/login")
+                .successHandler(successUserHandler)
+                .permitAll()
+                .and()
+                .logout().permitAll();
+    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) {

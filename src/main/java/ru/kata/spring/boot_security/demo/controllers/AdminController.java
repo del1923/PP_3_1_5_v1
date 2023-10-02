@@ -59,22 +59,22 @@ public class AdminController {
         this.roleServices = roleServices;
     }
 
-    @GetMapping("/showAccount")
-    public ResponseEntity<User> showInfoUser (Principal principal) {
-        return ResponseEntity.ok (userServices.findByUsername(principal.getName()));
+    @GetMapping()
+    public ResponseEntity<List<User>> showAllUsers() {
+        List<User> listUsers = new ArrayList<>(userServices.getAllUsers());
+        return ResponseEntity.ok(listUsers);
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+        return ResponseEntity.ok(userServices.findUserById( id ));
     }
 
-    @GetMapping("/users")
-    public ResponseEntity<List<User>> getAllUsers() {
-        List<User> responseListUsers = new ArrayList<>(userServices.getAllUsers());
-        return ResponseEntity.ok(responseListUsers);
-    }
 
-    @GetMapping(value = "/roles")
-    public ResponseEntity<Collection<Role>> getAllRoles() {
-        return ResponseEntity.ok(roleServices.getAllRoles());
+    @PostMapping()
+    public ResponseEntity<HttpStatus> addNewUser(@RequestBody User user) {
+        userServices.saveUser(user);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
-
 
 
 }

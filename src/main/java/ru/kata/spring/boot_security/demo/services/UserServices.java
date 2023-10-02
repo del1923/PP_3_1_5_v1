@@ -11,7 +11,7 @@ public interface UserServices {
     void saveUser(User user);
 
     void deleteUserById(Long id);
-    Set<User> getAllUsers();
+    List<User> getAllUsers();
 
     User findUserById(Long id);
     void createUser( User user );

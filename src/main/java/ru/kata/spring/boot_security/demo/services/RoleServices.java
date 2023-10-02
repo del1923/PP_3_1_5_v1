@@ -6,6 +6,6 @@ import java.util.List;
 import java.util.Set;
 
 public interface RoleServices {
-    Set<Role> getAllRoles();
+    List<Role> getAllRoles();
 
 }
