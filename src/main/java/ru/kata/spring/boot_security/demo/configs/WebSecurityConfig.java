@@ -36,23 +36,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .logout()// ОТКЛ авторизацию, потом удалить!
 //                .permitAll();// ОТКЛ авторизацию, потом удалить!
 
-//                .csrf().disable()
-//                .authorizeRequests()
-//                .antMatchers("/", "/index").permitAll()
-//                .antMatchers("/api/admin/**", "/admin/**").hasRole("ADMIN")
-//                .antMatchers("/api/user").hasAnyRole("USER", "ADMIN")
-//                .anyRequest().authenticated()
-//                .and()
-//                .formLogin()
-//                .loginPage("/login")
-//                .usernameParameter("email")
-//                .loginProcessingUrl("/login")
-//                .successHandler(successUserHandler)
-//                .permitAll()
-//                .and()
-//                .logout()
-//                .permitAll();
-
         .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/").permitAll() // на адрес "/" можно всем
