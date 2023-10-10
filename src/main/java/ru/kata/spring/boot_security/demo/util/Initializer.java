@@ -35,15 +35,15 @@ public class Initializer implements ApplicationListener<ContextRefreshedEvent> {
     public void onApplicationEvent(ContextRefreshedEvent event) {
 
         Role guestRole = new Role();
-        guestRole.setRole("ROLE_GUEST");
+        guestRole.setRole("GUEST");
         roleRepository.save(guestRole);
 
         Role userRole = new Role();
-        userRole.setRole("ROLE_USER");
+        userRole.setRole("USER");
         roleRepository.save(userRole);
 
         Role adminRole = new Role();
-        adminRole.setRole("ROLE_ADMIN");
+        adminRole.setRole("ADMIN");
         roleRepository.save(adminRole);
 
         List<Role> guestRoles = Arrays.asList( guestRole );
@@ -63,7 +63,7 @@ public class Initializer implements ApplicationListener<ContextRefreshedEvent> {
                 passwordEncoder.encode("guest"), guestRoles );
         userServices.createUser( guest );
 
-        User user = new User( "user", "user", 30, "user@mail.ru",
+        User user = new User( "user", "User", 30, "user@mail.ru",
                 passwordEncoder.encode("user"), userRoles );
         userServices.createUser( user );
 

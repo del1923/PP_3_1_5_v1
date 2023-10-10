@@ -20,8 +20,9 @@ public class UserController {
         this.userServices = userServices;
     }
 
-    @GetMapping("/user")
+    @GetMapping("/")
     public User getUser(Principal principal) {
-        return userServices.findByUsername(principal.getName());
+        System.out.println( userServices.findByEmail( principal.getName()) ); //userService.getUser(principal.getName()).get();
+        return userServices.findByEmail( principal.getName());
     } // получаем пользователя по имени
 }

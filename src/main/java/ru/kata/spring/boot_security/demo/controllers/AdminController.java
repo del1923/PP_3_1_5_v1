@@ -59,11 +59,17 @@ public class AdminController {
         this.roleServices = roleServices;
     }
 
-    @GetMapping()
+    @GetMapping("/users")
     public ResponseEntity<List<User>> showAllUsers() {
         List<User> listUsers = new ArrayList<>(userServices.getAllUsers());
         return ResponseEntity.ok(listUsers);
     }
+
+//    @GetMapping("/users")
+//    public List<User> allUser() {
+//        return userService.listUser();
+//    }
+
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
         return ResponseEntity.ok(userServices.findUserById( id ));
@@ -75,7 +81,10 @@ public class AdminController {
         userServices.saveUser(user);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
+    @GetMapping("/roles")
+    public List<Role> roles() {
+        return roleServices.getAllRoles();
+    }
 
 }
 
