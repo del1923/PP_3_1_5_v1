@@ -22,7 +22,6 @@ public class UserController {
 
     @GetMapping("/")
     public User getUser(Principal principal) {
-        System.out.println( userServices.findByEmail( principal.getName()) );
         return userServices.findByEmail( principal.getName());
     } // получаем пользователя по имени
 }

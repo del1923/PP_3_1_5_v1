@@ -17,7 +17,7 @@
             <a class="navbar-brand">with role: ADMIN USER</a>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="/logout">Logout</a>
+                    <a class="btn btn-outline-light" href="/logout" role="button">Logout</a>
                 </li>
             </ul>
         </div>
@@ -73,8 +73,8 @@
                                         <thead>
                                         <tr>
                                             <th>Id</th>
-                                            <th>Firstname</th>
-                                            <th>Lastname</th>
+                                            <th>First name</th>
+                                            <th>Last name</th>
                                             <th>Age</th>
                                             <th>Role</th>
                                             <th>Edit</th>
@@ -86,7 +86,7 @@
                                 </div>
                             </div>
                         </div>
-<!--Новый юзер-->
+<!--     модальное окно добавления нового пользователя -->
                         <div class="tab-pane fade" id="new-user" role="tabpanel" aria-labelledby="new-user-tab">
                             <div class="card">
                                 <div class="card-header">
@@ -151,8 +151,10 @@
                                 <thead>
                                 <tr>
                                     <th>Id</th>
-                                    <th>Username</th>
-                                    <th>age</th>
+                                    <th>First name</th>
+                                    <th>Last name</th>
+                                    <th>Age</th>
+                                    <th>email</th>
                                     <th>Role</th>
                                 </tr>
                                 </thead>
@@ -165,13 +167,13 @@
         </div>
     </div>
 </div>
-<!--Модальное окно изменение-->
+<!--   Модальное окно редактирования полдьзователя -->
 <div id="editUserModal" class="modal fade" tabindex="-1"
      aria-labelledby="editUserModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editUserModalLabel">Edit user</h5>
+                <h5 class="modal-title" style="color: #0219b4" id="editUserModalLabel">Edit user</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                         aria-label="Close"></button>
             </div>
@@ -184,16 +186,28 @@
                                    id="id_edit" name="id">
                         </div>
                         <div class="mb-3">
-                            <label for="Username_edit" class="label">Username</label>
+                            <label for="name_edit" class="label">First name</label>
                             <input type="text" class="form-control"
-                                   id="Username_edit"
-                                   name="Username" required>
+                                   id="name_edit"
+                                   name="name" required>
                         </div>
                         <div class="mb-3">
-                            <label for="age_edit" class="label">age</label>
+                            <label for="surname_edit" class="label">Last name</label>
+                            <input type="text" class="form-control"
+                                   id="surname_edit"
+                                   name="surname" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="age_edit" class="label">Age</label>
                             <input type="text" class="form-control"
                                    id="age_edit"
                                    name="age" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email_edit" class="label">email</label>
+                            <input type="text" class="form-control"
+                                   id="email_edit"
+                                   name="email" required>
                         </div>
                         <div class="mb-3">
                             <label for="password_edit" class="label">Password</label>
@@ -212,7 +226,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary"
-                        data-bs-dismiss="modal">Close
+                        data-bs-dismiss="modal">Cancel
                 </button>
                 <button type="submit" form="edit_user_form"
                         class="btn btn-primary">Edit
@@ -221,13 +235,14 @@
         </div>
     </div>
 </div>
-<!--Модальное окно удаления-->
+<!--  Модальное окно удаления подьзователя -->
 <div id="deleteUserModal" class="modal fade" tabindex="-1"
      aria-labelledby="deleteUserModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="deleteUserModalLabel">Delete user</h5>
+
+                <h5 class="modal-title" style="color: red" id="deleteUserModalLabel">Delete user</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                         aria-label="Close"></button>
             </div>
@@ -239,16 +254,20 @@
                             <input readonly type="number" class="form-control" id="id_delete">
                         </div>
                         <div class="mb-3">
-                            <label for="Username_delete" class="label">Username</label>
-                            <input readonly type="text" class="form-control" id="Username_delete">
+                            <label for="name_delete" class="label">First name</label>
+                            <input readonly type="text" class="form-control" id="name_delete">
                         </div>
                         <div class="mb-3">
-                            <label for="age_delete" class="label">age</label>
-                            <input readonly type="text" class="form-control" id="age_delete">
+                            <label for="surname_delete" class="label">Last name</label>
+                            <input readonly type="text" class="form-control" id="surname_delete">
                         </div>
                         <div class="mb-3">
-                            <label for="password_delete" class="label">Password</label>
-                            <input readonly type="password" class="form-control" id="password_delete" aria-describedby="emailHelp">
+                            <label for="age_delete" class="label">Age</label>
+                            <input readonly type="number" class="form-control" id="age_delete">
+                        </div>
+                        <div class="mb-3">
+                            <label for="email_delete" class="label">email</label>
+                            <input readonly type="text" class="form-control" id="email_delete">
                         </div>
                         <div class="mb-3">
                             <label for="role_delete" class="label">Roles</label>
@@ -261,10 +280,10 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary"
-                        data-bs-dismiss="modal">Close
+                        data-bs-dismiss="modal">Cancel
                 </button>
                 <button id="deleteUserButton" type="submit" form="delete_user_form"
-                        class="btn btn-primary">Delete
+                        class="btn btn-danger">Delete
                 </button>
             </div>
         </div>

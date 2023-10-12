@@ -30,7 +30,7 @@ allUser.then(listUsers => {
                     <td>${listUsers[i].email}</td>
                     <td>${roles}</td>
                     <td>
-                        <button type="button" class="btn btn-info btn-sm text-white" id="editUserBtn">Edit</button>
+                        <button type="button" class="btn btn-primary btn-sm text-white" id="editUserBtn">Edit</button>
                     </td>
                     <td>
                         <button type="button" class="btn btn-danger btn-sm" id="deleteUserBtn">Delete</button>
@@ -124,8 +124,10 @@ const editUserModel = new bootstrap.Modal(document.getElementById("editUserModal
 
 
 const editId = document.getElementById("id_edit")
-const editUsername = document.getElementById("Username_edit")
+const editname = document.getElementById("name_edit")
+const editsurname = document.getElementById( "surname_edit")
 const editage = document.getElementById("age_edit")
+const editemail = document.getElementById( "email_edit")
 const editPassword = document.getElementById("password_edit")
 const editRole = document.getElementById("role_edit")
 
@@ -136,12 +138,14 @@ on(document, 'click', '#editUserBtn', e => {
     const fila = e.parentNode.parentNode
     let option = ''
     editId.value = fila.children[0].innerHTML
-    editUsername.value = fila.children[1].innerHTML
-    editage.value = fila.children[2].innerHTML
-    editPassword.value = fila.children[3].innerHTML
+    editname.value = fila.children[1].innerHTML
+    editsurname.value = fila.children[2].innerHTML
+    editage.value = fila.children[3].innerHTML
+    editemail.value = fila.children[4].innerHTML
+    editPassword.value = fila.children[5].innerHTML
     listRoles.then(rolList => {
         rolList.forEach(name => {
-            let selected = fila.children[4].innerHTML.includes(name.role.replace('ROLE_', '')) ? 'selected' : ''
+            let selected = fila.children[6].innerHTML.includes(name.role.replace('ROLE_', '')) ? 'selected' : ''
             option += `
                 <option value="${name.id}" ${selected}>${name.role.replace('ROLE_', '')}</option>`
 
@@ -171,8 +175,10 @@ formEdit.addEventListener('submit', e => {
         },
         body: JSON.stringify({
             id: editId.value,
-            username: editUsername.value,
+            name: editname.value,
+            surname: editsurname.value,
             age: editage.value,
+            email: editemail.value,
             password: editPassword.value,
             roles: listRoleEdit
         })
@@ -189,13 +195,15 @@ let rowDelete = null
 on(document, 'click', '#deleteUserBtn', e => {
     rowDelete = e.parentNode.parentNode
     document.getElementById('id_delete').value = rowDelete.children[0].innerHTML
-    document.getElementById('Username_delete').value = rowDelete.children[1].innerHTML
-    document.getElementById('age_delete').value = rowDelete.children[2].innerHTML
+    document.getElementById('name_delete').value = rowDelete.children[1].innerHTML
+    document.getElementById("surname_delete").value = rowDelete.children[2].innerHTML
+    document.getElementById('age_delete').value = rowDelete.children[3].innerHTML
+    document.getElementById("email_delete").value = rowDelete.children[4].innerHTML
 
     let option = ''
     listRoles.then(roles => {
         roles.forEach(role => {
-            if (rowDelete.children[3].innerHTML.includes(role.role.replace('ROLE_', ''))) {
+            if (rowDelete.children[5].innerHTML.includes(role.role.replace('ROLE_', ''))) {
                 option += `<option value="${role.id}">${role.role.replace('ROLE_', '')}</option>`
             }
         })
