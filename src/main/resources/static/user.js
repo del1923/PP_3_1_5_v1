@@ -20,5 +20,5 @@ currentUser.then((user) =>{
                     <td>${roles}</td>
                    </tr>`;
     //console.log( result )
-    document.getElementById("userTableBody").innerHTML = result;
+    document.getElementById("user-info-table").innerHTML = result;
 })

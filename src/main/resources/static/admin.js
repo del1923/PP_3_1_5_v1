@@ -6,8 +6,8 @@ const on = (element, event, selector, handler) => {
     })
 }
 
-// const urlAdmin = "http://localhost:8080/api/admin/"
-currentUser = fetch("http://localhost:8080/api/admin/").then((response) => response.json())
+const urlAdmin = "http://localhost:8080/api/admin/"
+currentUser = fetch( urlAdmin ).then((response) => response.json())
 
 const urlAllUser = "http://localhost:8080/api/admin/users"
 
@@ -84,8 +84,10 @@ document.getElementById("newUserForm")
                 "Content-type": "application/json"
             },
             body: JSON.stringify({
-                username: document.getElementById("Username").value,
+                name: document.getElementById("name").value,
+                surname: document.getElementById( "surname").value,
                 age: document.getElementById("age").value,
+                email:document.getElementById( "email").value,
                 password: document.getElementById("password").value,
                 roles: listRoles
             })
@@ -106,8 +108,10 @@ pageUser.then((user) => {
     let result = "";
     result += `<tr>
                     <td>${user.id}</td>
-                    <td>${user.username}</td>
+                    <td>${user.name}</td>
+                    <td>${user.surname}</td>
                     <td>${user.age}</td>
+                    <td>${user.email}</td>
                     <td>${rol}</td>
                    </tr>`;
     document.getElementById("user-table").innerHTML = result;

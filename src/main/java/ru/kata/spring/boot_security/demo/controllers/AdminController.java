@@ -8,6 +8,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -59,20 +60,26 @@ public class AdminController {
         this.roleServices = roleServices;
     }
 
+    @GetMapping("/")
+    public User getUser(Principal principal) {
+        System.out.println( userServices.findByEmail( principal.getName()) );
+        return userServices.findByEmail( principal.getName());
+    } // получаем пользователя по имени
+
     @GetMapping("/users")
     public ResponseEntity<List<User>> showAllUsers() {
         List<User> listUsers = new ArrayList<>(userServices.getAllUsers());
         return ResponseEntity.ok(listUsers);
-    }
-
-//    @GetMapping("/users")
-//    public List<User> allUser() {
-//        return userService.listUser();
-//    }
+    } //получаем список всех пользователей
 
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
         return ResponseEntity.ok(userServices.findUserById( id ));
+    } // получаем пользователя по ID
+
+    @PostMapping("/add")
+    public void addUser(@RequestBody User user) {
+        userServices.saveUser(user);
     }
 
 
@@ -84,6 +91,11 @@ public class AdminController {
     @GetMapping("/roles")
     public List<Role> roles() {
         return roleServices.getAllRoles();
+    }
+
+    @PatchMapping("/update")
+    public void updateUser(@RequestBody User user) {
+        userServices.saveUser(user);
     }
 
 }
