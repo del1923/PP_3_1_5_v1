@@ -6,10 +6,10 @@ const on = (element, event, selector, handler) => {
     })
 }
 
-const urlAdmin = "http://localhost:8080/api/admin/"
+const urlAdmin = "/api/admin/"
 currentUser = fetch( urlAdmin ).then((response) => response.json())
 
-const urlAllUser = "http://localhost:8080/api/admin/users"
+const urlAllUser = "/api/admin/users"
 
 const allUser = fetch(urlAllUser)
     .then((response) => response.json())
@@ -42,7 +42,7 @@ allUser.then(listUsers => {
 )
 
 
-const urlRole = "http://localhost:8080/api/admin/roles"
+const urlRole = "/api/admin/roles"
 const listRoles = fetch(urlRole).then(response => response.json())
 const fillRole = function (elementId) {
     listRoles.then(roles => {
@@ -60,7 +60,7 @@ fillRole("role_select")
 //__________________________________________________________________________________
 
 
-const urlPost = "http://localhost:8080/api/admin/add"
+const urlPost = "/api/admin/add"
 
 const newUserForm = document.getElementById("newUserForm")
 document.getElementById("newUserForm")
@@ -97,7 +97,7 @@ document.getElementById("newUserForm")
         document.getElementById("all-users-tab").click()
     })
 //_______________________________________________________________________________________
-pageUser = fetch("http://localhost:8080/api/admin/").then(response => response.json())
+pageUser = fetch("/api/admin/").then(response => response.json())
 pageUser.then((user) => {
     let rol = "";
     user.roles.forEach((name) => {
@@ -118,7 +118,7 @@ pageUser.then((user) => {
 })
 
 
-const urlPATCH = "http://localhost:8080/api/admin/update"
+const urlPATCH = "/api/admin/update"
 
 const editUserModel = new bootstrap.Modal(document.getElementById("editUserModal"))
 
@@ -186,7 +186,7 @@ formEdit.addEventListener('submit', e => {
     editUserModel.hide()
 })
 
-const urlDelete = "http://localhost:8080/api/admin/delete/"
+const urlDelete = "/api/admin/delete/"
 
 const deleteModalBtn = new bootstrap.Modal(document.getElementById("deleteUserModal"))
 

@@ -43,14 +43,14 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/api/admin")
-public class AdminController {
+public class AdminRESTController {
 
     private final UserServices userServices;
     private final RoleServices roleServices;
 
 
     @Autowired
-    public AdminController(UserServices userServices, RoleServices roleServices) {
+    public AdminRESTController(UserServices userServices, RoleServices roleServices) {
         this.userServices = userServices;
         this.roleServices = roleServices;
     }

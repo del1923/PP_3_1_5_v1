@@ -11,12 +11,12 @@ import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/user")
-public class UserController {
+public class UserRESTController {
 
     private final UserServices userServices;
 
     @Autowired
-    public UserController(UserServices userServices) {
+    public UserRESTController(UserServices userServices) {
         this.userServices = userServices;
     }
 
