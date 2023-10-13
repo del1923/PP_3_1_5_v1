@@ -13,7 +13,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
+
 
 @Entity
 @Table(name = "roles")
@@ -59,6 +59,7 @@ public class Role implements GrantedAuthority {
     public String getAuthority() {
         return ROLE_PREFIX + role;
     }
+
     @Override
     public int hashCode() {
         return Objects.hash(id, role);

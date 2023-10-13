@@ -8,9 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.repositories.UserRepository;
 
-import java.util.ArrayList;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
@@ -51,9 +49,6 @@ public class UserServiceImpl implements UserServices {
     @Override
     public Set<User> getAllUsers() {
         return new LinkedHashSet<>(userRepository.findAll());
-        /* userRepository.findAll();
-        new LinkedHashSet<>(userRepository.findAll());
-    */
     }
 
     @Override
@@ -65,7 +60,7 @@ public class UserServiceImpl implements UserServices {
     @Override
     @Transactional
     public void createUser(User user) {
-        userRepository.save( user );
+        userRepository.save(user);
     }
 
     @Override
