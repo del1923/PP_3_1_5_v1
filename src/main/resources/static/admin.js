@@ -7,6 +7,7 @@ const on = (element, event, selector, handler) => {
 }
 
 const urlAdmin = "/api/admin/"
+// const urlAdmin = "https:/localhost:8080/api/admin/"
 currentUser = fetch( urlAdmin ).then((response) => response.json())
 
 const urlAllUser = "/api/admin/users"
