@@ -49,9 +49,11 @@ public class UserServiceImpl implements UserServices {
     }
 
     @Override
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
-        //new LinkedHashSet<>(userRepository.findAll());
+    public Set<User> getAllUsers() {
+        return new LinkedHashSet<>(userRepository.findAll());
+        /* userRepository.findAll();
+        new LinkedHashSet<>(userRepository.findAll());
+    */
     }
 
     @Override

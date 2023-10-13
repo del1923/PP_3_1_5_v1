@@ -2,6 +2,7 @@ package ru.kata.spring.boot_security.demo.model;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -54,7 +55,7 @@ public class User implements UserDetails {
     private int age;
 
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     @NotEmpty(message = "Не пустое")
     @Email(message = "формат: abc@defg.hi")
     private String email;
@@ -64,12 +65,12 @@ public class User implements UserDetails {
     @JoinTable(name = "users_roles"
             , joinColumns = @JoinColumn(name = "users_id")
             , inverseJoinColumns = @JoinColumn(name = "roles_id"))
-    private List<Role> roles;
+    private Set<Role> roles;
 
     public User() {
     }
 
-    public User(String name, String surname, int age, String email, String password, List<Role> roles) {
+    public User(String name, String surname, int age, String email, String password, Set<Role> roles) {
         this.password = password;
         this.name = name;
         this.surname = surname;
@@ -132,11 +133,11 @@ public class User implements UserDetails {
         this.email = email;
     }
 
-    public List<Role> getRoles() {
+    public Set<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<Role> roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 

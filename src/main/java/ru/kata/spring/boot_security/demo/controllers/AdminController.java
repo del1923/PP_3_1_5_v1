@@ -88,7 +88,7 @@ public class AdminController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
     @GetMapping("/roles")
-    public List<Role> roles() {
+    public Set<Role> roles() {
         return roleServices.getAllRoles();
     }
 

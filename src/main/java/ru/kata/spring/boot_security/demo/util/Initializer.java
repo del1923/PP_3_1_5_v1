@@ -46,29 +46,28 @@ public class Initializer implements ApplicationListener<ContextRefreshedEvent> {
         adminRole.setRole("ADMIN");
         roleRepository.save(adminRole);
 
-        List<Role> guestRoles = Arrays.asList( guestRole );
-        List<Role> userRoles = Arrays.asList( guestRole, userRole );
-        List<Role> adminRoles = Arrays.asList( guestRole, userRole, adminRole );
+        Set<Role> guestRoles = new LinkedHashSet<>();
+        Collections.addAll(guestRoles, guestRole);
 
-//        Set<Role> guestRoles = new LinkedHashSet<>();
-//        Collections.addAll(guestRoles, guestRole);
-//
-//        Set<Role> userRoles = new LinkedHashSet<>();
-//        Collections.addAll(userRoles, userRole, guestRole);
-//
-//        Set<Role> adminRoles = new LinkedHashSet<>();
-//        Collections.addAll(adminRoles, adminRole, userRole, guestRole);
+        Set<Role> userRoles = new LinkedHashSet<>();
+        Collections.addAll(userRoles, userRole, guestRole);
+
+        Set<Role> adminRoles = new LinkedHashSet<>();
+        Collections.addAll(adminRoles, adminRole, userRole, guestRole);
 
         User guest = new User( "guest", "guest", 20, "guest@mail.ru",
                 passwordEncoder.encode("guest"), guestRoles );
         userServices.createUser( guest );
+        System.out.println("создана запись GUEST: login - "+ guest.getEmail() + ", password - guest.");
 
         User user = new User( "user", "User", 30, "user@mail.ru",
                 passwordEncoder.encode("user"), userRoles );
         userServices.createUser( user );
+        System.out.println("создана запись USER: login - "+ user.getEmail() + ", password - user.");
 
         User admin = new User( "admin", "admin", 40, "admin@mail.ru",
                 passwordEncoder.encode("admin"), adminRoles );
         userServices.createUser( admin );
+        System.out.println("создана запись ADMIN: login - "+ admin.getEmail() + ", password - admin.");
     }
 }

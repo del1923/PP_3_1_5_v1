@@ -20,8 +20,7 @@ public class RoleServiceImpl implements RoleServices {
     }
 
     @Override
-    public List<Role> getAllRoles() {
-        return roleRepository.findAll();
-        //new LinkedHashSet<>(roleRepository.findAll());
+    public Set<Role> getAllRoles() {
+        return new LinkedHashSet<>(roleRepository.findAll());
     }
 }
